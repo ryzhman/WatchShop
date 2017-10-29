@@ -1,0 +1,11 @@
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (1, true, 'Manufacturer0', 0, 'Watch0');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (2, false, 'Manufacturer1', 0, 'Watch1');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (3, true, 'Manufacturer4', 0, 'Watch2');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (4, false, 'Manufacturer9', 0, 'Watch3');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (5, true, 'Manufacturer16', 0, 'Watch4');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (6, false, 'Manufacturer25', 0, 'Watch5');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (7, true, 'Manufacturer36', 0, 'Watch6');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (8, false, 'Manufacturer49', 0, 'Watch7');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (9, true, 'Manufacturer64', 0, 'Watch8');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (10, false, 'Manufacturer81', 0, 'Watch9');
+INSERT INTO watchshop.watch (id, is_digital, manufacturer, status, title) VALUES (11, true, 'Manufacturer100', 0, 'Watch10');
