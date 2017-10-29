@@ -1,4 +1,4 @@
-package com.watchShop.controllers;
+package com.watchShop.controller;
 
 import com.watchShop.DAO.WatchRepository;
 import com.watchShop.entity.Status;
