@@ -1,22 +1,34 @@
 package com.watchShop.entity;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by Oleksandr Ryzhkov on 28.10.2017.
  */
+@Entity
+@Table
 public class Watch {
+    @Id
+    @GeneratedValue
     private long id;
+    @NotNull
     private String title;
+    @NotNull
     private String manufacturer;
+    @NotNull
     private boolean isDigital;
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
 
     public Watch() {
     }
 
-    public Watch(String title, String manufacturer, boolean isDigital) {
+    public Watch(String title, String manufacturer, boolean isDigital, Status status) {
         this.title = title;
         this.manufacturer = manufacturer;
         this.isDigital = isDigital;
+        this.status = status;
     }
 
     public long getId() {
@@ -49,5 +61,13 @@ public class Watch {
 
     public void setDigital(boolean digital) {
         isDigital = digital;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
