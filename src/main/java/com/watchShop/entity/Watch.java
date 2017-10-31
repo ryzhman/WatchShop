@@ -20,6 +20,8 @@ public class Watch {
     private boolean isDigital;
     @Enumerated(EnumType.ORDINAL)
     private Status status;
+    @NotNull
+    private double price;
 
     public Watch() {
     }
@@ -69,5 +71,13 @@ public class Watch {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

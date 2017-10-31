@@ -15,6 +15,8 @@ public interface WatchRepository extends CrudRepository<Watch, Long> {
 
     List<Watch> getWatchesByStatus(Status status);
 
+    Watch getById(long id);
+
     List<Watch> findAll();
 
     Watch save(Watch watch);

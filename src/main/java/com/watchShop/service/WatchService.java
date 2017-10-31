@@ -1,30 +1,28 @@
 package com.watchShop.service;
 
-import com.watchShop.DAO.WatchRepository;
 import com.watchShop.entity.Status;
 import com.watchShop.entity.Watch;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by Oleksandr Ryzhkov on 29.10.2017.
+ * Created by Oleksandr Ryzhkov on 31.10.2017.
  */
-@Service
-@Transactional
-public class WatchService {
-    @Autowired
-    WatchRepository watchRepository;
+public interface WatchService {
+    Watch addNewWatch(Watch watch);
 
-    @PostConstruct
-    public void init() {
-        for (int i = 0; i < 11; i++) {
-            Watch watch = new Watch("Watch" + i, "Manufacturer" + (i * i), i % 2 == 0, Status.AVAILABLE);
-            watchRepository.save(watch);
-        }
-    }
+    boolean removeWatch(long id);
+
+    List<Watch> getAllAvailableWatches();
+
+    List<Watch> getAllWatchesByStatus(Status status);
+
+    List<Watch> getAllWatches();
+
+    Watch getWatchByTitle(String title);
+
+    Watch getWatchById(long id);
+
+    void updateWatch(long id, Map<String, String> mapWithProps);
 }
