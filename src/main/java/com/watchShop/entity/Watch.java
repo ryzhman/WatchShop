@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
  * Created by Oleksandr Ryzhkov on 28.10.2017.
  */
 @Entity
-@Table
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"title"})})
 public class Watch {
     @Id
     @GeneratedValue
