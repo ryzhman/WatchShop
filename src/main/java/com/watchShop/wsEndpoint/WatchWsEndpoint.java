@@ -3,8 +3,8 @@ package com.watchShop.wsEndpoint;
 import com.watchShop.DAO.WatchRepository;
 import com.watchShop.entity.Status;
 import com.watchShop.entity.Watch;
-import localhost._8080.ws.watchesshop.GetAllAvailableWatchesByStatusResponse;
-import localhost._8080.ws.watchesshop.GetAllWatchesByStatusRequest;
+import localhost._8080.ws.watchesshop.schema.GetWatchesByStatusRequest;
+import localhost._8080.ws.watchesshop.schema.GetWatchesByStatusResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 @Endpoint
 public class WatchWsEndpoint {
-    private static final String NAMESPACE_URI = "http://localhost:8080/ws/watchesShop";
+    private static final String NAMESPACE_URI = "http://localhost:8080/ws/watchesShop/schema";
 
     @Autowired
     private WatchRepository watchRepository;
@@ -32,14 +32,14 @@ public class WatchWsEndpoint {
      * GetAllAvailableWatchesByStatusResponse and GetAllWatchesByStatusRequest will be generated in runtime
      * based on WSDL (watches.xsd)
      */
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getWatchesByStatus")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getWatchesByStatusRequest")
     @ResponsePayload
-    public GetAllAvailableWatchesByStatusResponse getCountry(@RequestPayload GetAllWatchesByStatusRequest request) {
-        GetAllAvailableWatchesByStatusResponse response = new GetAllAvailableWatchesByStatusResponse();
+    public GetWatchesByStatusResponse getWatchesByStatus(@RequestPayload GetWatchesByStatusRequest request) {
+        GetWatchesByStatusResponse response = new GetWatchesByStatusResponse();
         List<Watch> watches = watchRepository.getWatchesByStatus(Status.valueOf(request.getStatus().toString()));
 
-        List<localhost._8080.ws.watchesshop.Watch> responseCollection = watches.stream().map(watch -> {
-            localhost._8080.ws.watchesshop.Watch newWatch = new localhost._8080.ws.watchesshop.Watch();
+        List<localhost._8080.ws.watchesshop.schema.Watch> responseCollection = watches.stream().map(watch -> {
+            localhost._8080.ws.watchesshop.schema.Watch newWatch = new localhost._8080.ws.watchesshop.schema.Watch();
             newWatch.setId(watch.getId());
             newWatch.setIsDigital(watch.isDigital());
             newWatch.setManufacturer(watch.getManufacturer());
