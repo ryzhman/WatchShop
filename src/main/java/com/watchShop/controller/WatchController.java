@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.watchShop.DAO.WatchRepository;
 import com.watchShop.entity.Status;
 import com.watchShop.entity.Watch;
+import com.watchShop.exception.GenericEngineException;
 import com.watchShop.service.WatchService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,32 +29,38 @@ public class WatchController {
     private WatchService watchService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getWatchByTitle(@RequestParam("title") String title) throws JsonProcessingException {
-        Watch watchByTitle = watchService.getWatchByTitle(title);
-        return mapper.writeValueAsString(watchByTitle);
+    public String getWatchByTitle(@RequestParam("title") String title) throws GenericEngineException {
+        try {
+            Watch watchByTitle = watchService.getWatchByTitle(title);
+            return mapper.writeValueAsString(watchByTitle);
+        } catch (Exception e) {
+            throw new GenericEngineException(e);
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity addNewWatch(@RequestBody JsonNode newWatch) throws JsonProcessingException {
-        Watch watch = mapper.treeToValue(newWatch, Watch.class);
-        if (watchService.addNewWatch(watch) != null) {
-            return new ResponseEntity(HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    @ResponseStatus(HttpStatus.OK)
+    public void addNewWatch(@RequestBody JsonNode newWatch) throws GenericEngineException {
+        try {
+            Watch watch = mapper.treeToValue(newWatch, Watch.class);
+        } catch (Exception e) {
+            throw new GenericEngineException(e);
         }
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public void removeWatch(@PathVariable("id") long id) {
+    public void removeWatch(@PathVariable("id") long id) throws GenericEngineException {
         watchService.removeWatch(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateWatch(@PathVariable("id") long id, @RequestBody JsonNode detailsToUpdate) throws JsonProcessingException {
-        Map<String, String> mapWithProps = mapper.treeToValue(detailsToUpdate, Map.class);
-
-        watchService.updateWatch(id, mapWithProps);
+    public void updateWatch(@PathVariable("id") long id, @RequestBody JsonNode detailsToUpdate) throws GenericEngineException {
+        try {
+            watchService.updateWatch(id, mapper.treeToValue(detailsToUpdate, Map.class));
+        } catch (Exception e) {
+            throw new GenericEngineException(e);
+        }
     }
 }
 

@@ -3,6 +3,7 @@ package com.watchShop.service;
 import com.watchShop.DAO.WatchRepository;
 import com.watchShop.entity.Status;
 import com.watchShop.entity.Watch;
+import com.watchShop.exception.GenericEngineException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,19 +22,23 @@ public class WatchServiceImpl implements WatchService {
     WatchRepository watchRepository;
 
     @Override
-    public Watch addNewWatch(Watch watch) {
-        return watchRepository.save(watch);
+    public Watch addNewWatch(Watch watch) throws GenericEngineException {
+        Watch save = watchRepository.save(watch);
+        if(save != null) {
+            return save;
+        } else {
+            throw new GenericEngineException("Entity was not saved");
+        }
     }
 
     @Override
-    public boolean removeWatch(long id) {
+    public boolean removeWatch(long id) throws GenericEngineException {
         try {
             Watch watch = watchRepository.getById(id);
             watchRepository.delete(watch);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new GenericEngineException("Requested entity was not found", e);
         }
     }
 
@@ -53,17 +58,27 @@ public class WatchServiceImpl implements WatchService {
     }
 
     @Override
-    public Watch getWatchByTitle(String title) {
-        return watchRepository.getWatchByTitle(title);
+    public Watch getWatchByTitle(String title) throws GenericEngineException {
+        Watch watchByTitle = watchRepository.getWatchByTitle(title);
+        if(watchByTitle != null) {
+            return watchByTitle;
+        } else {
+            throw new GenericEngineException("Requested entity was not found");
+        }
     }
 
     @Override
-    public Watch getWatchById(long id) {
-        return watchRepository.getById(id);
+    public Watch getWatchById(long id) throws GenericEngineException {
+        Watch byId = watchRepository.getById(id);
+        if(byId != null) {
+            return byId;
+        } else {
+            throw new GenericEngineException("Requested entity was not found");
+        }
     }
 
     @Override
-    public void updateWatch(long id, Map<String, String> mapWithProps) {
+    public void updateWatch(long id, Map<String, String> mapWithProps) throws GenericEngineException {
         Watch watchToUpdate = getWatchById(id);
 
         for (Map.Entry<String, String> entry : mapWithProps.entrySet()) {

@@ -8,7 +8,7 @@ It is based on Spring Boot, Spring WS and Spring Data for the sake of easiness t
 
 **To start it you will need to:**
 1. Have MySQL server installed on your machine
-2. Manually create database 'watchshop'
+2. Manually create database 'watchshop' and set up credentials for DB (by default used 'root'-'root')
 3. Build project with `maven clean install` to generate classes from WSDL.
 4. Run SpringBoot in Application.class. Corresponding tables should be created and populated from import.sql file automatically. 
 
