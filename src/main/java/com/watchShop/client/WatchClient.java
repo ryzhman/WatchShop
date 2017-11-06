@@ -27,8 +27,8 @@ public class WatchClient {
 
     public boolean fetchDataFromThirdPartyServer() throws GenericEngineException {
         try {
-            //todo fetch data
-
+            RestTemplate restTemplate = new RestTemplate();
+            String rawRequestResult = restTemplate.getForObject(URL_SERVER_TO_GET_DATA_FROM, String.class);
             //todo parse data
             //todo store data
 
