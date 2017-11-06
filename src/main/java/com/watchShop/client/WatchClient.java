@@ -1,14 +1,19 @@
 package com.watchShop.client;
 
+import com.watchShop.entity.Watch;
 import com.watchShop.exception.GenericEngineException;
 import com.watchShop.service.WatchService;
+import com.watchShop.utility.HtmlParser;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
-import java.util.Properties;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Oleksandr Ryzhkov on 06.11.2017.
@@ -29,10 +34,10 @@ public class WatchClient {
         try {
             RestTemplate restTemplate = new RestTemplate();
             String rawRequestResult = restTemplate.getForObject(URL_SERVER_TO_GET_DATA_FROM, String.class);
-            //todo parse data
+
+            List<Watch> watches = HtmlParser.parseRawDateToWatches(rawRequestResult);
+
             //todo store data
-
-
             return true;
         } catch (Exception e) {
             throw new GenericEngineException("Could not fetch and store data from the third party server");
