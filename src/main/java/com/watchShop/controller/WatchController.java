@@ -29,10 +29,10 @@ public class WatchController {
     private WatchService watchService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getWatchByTitle(@RequestParam("title") String title) throws GenericEngineException {
+    public ResponseEntity<String> getWatchByTitle(@RequestParam("title") String title) throws GenericEngineException {
         try {
             Watch watchByTitle = watchService.getWatchByTitle(title);
-            return mapper.writeValueAsString(watchByTitle);
+            return new ResponseEntity<>(mapper.writeValueAsString(watchByTitle), HttpStatus.OK);
         } catch (Exception e) {
             throw new GenericEngineException(e);
         }

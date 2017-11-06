@@ -16,12 +16,12 @@ import java.util.Map;
  * Created by Oleksandr Ryzhkov on 29.10.2017.
  */
 @Service
-@Transactional
 public class WatchServiceImpl implements WatchService {
     @Autowired
     WatchRepository watchRepository;
 
     @Override
+    @Transactional
     public Watch addNewWatch(Watch watch) throws GenericEngineException {
         Watch save = watchRepository.save(watch);
         if(save != null) {
@@ -32,6 +32,7 @@ public class WatchServiceImpl implements WatchService {
     }
 
     @Override
+    @Transactional
     public boolean removeWatch(long id) throws GenericEngineException {
         try {
             Watch watch = watchRepository.getById(id);
@@ -78,6 +79,7 @@ public class WatchServiceImpl implements WatchService {
     }
 
     @Override
+    @Transactional
     public void updateWatch(long id, Map<String, String> mapWithProps) throws GenericEngineException {
         Watch watchToUpdate = getWatchById(id);
 

@@ -21,7 +21,6 @@ public interface WatchRepository extends CrudRepository<Watch, Long> {
 
     Watch save(Watch watch);
 
-    // custom query example and return a stream
     @Query("select w from Watch w where w.title = :title")
     Watch getWatchByTitle(@Param("title") String title);
 
