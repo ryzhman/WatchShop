@@ -1,5 +1,8 @@
 package com.watchShop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -8,6 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"title"})})
+@JsonIgnoreProperties(ignoreUnknown = true, value = { "id" })
 public class Watch {
     @Id
     @GeneratedValue
@@ -19,7 +23,7 @@ public class Watch {
     @NotNull
     private boolean isDigital;
     @Enumerated(EnumType.ORDINAL)
-    private Status status;
+    private Status status = Status.AVAILABLE;
     @NotNull
     private double price;
 
@@ -41,6 +45,7 @@ public class Watch {
         this.id = id;
     }
 
+    @JsonProperty("name")
     public String getTitle() {
         return title;
     }
@@ -49,6 +54,7 @@ public class Watch {
         this.title = title;
     }
 
+    @JsonProperty("brand")
     public String getManufacturer() {
         return manufacturer;
     }
