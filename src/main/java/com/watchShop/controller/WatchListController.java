@@ -7,6 +7,8 @@ import com.watchShop.entity.Status;
 import com.watchShop.exception.GenericEngineException;
 import com.watchShop.service.WatchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +39,11 @@ public class WatchListController {
     }
 
     @RequestMapping(value = "/thirdPartyWatches", method = RequestMethod.POST)
-    public boolean loadWatchesFromThirdPartyServer() throws GenericEngineException {
-        return watchClient.fetchDataFromThirdPartyServer();
+    public ResponseEntity loadWatchesFromThirdPartyServer() throws GenericEngineException {
+        if (watchClient.fetchDataFromThirdPartyServer()) {
+            return new ResponseEntity(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

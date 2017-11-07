@@ -1,5 +1,6 @@
 package com.watchShop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,11 +11,12 @@ import javax.validation.constraints.NotNull;
  * Created by Oleksandr Ryzhkov on 28.10.2017.
  */
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"title"})})
-@JsonIgnoreProperties(ignoreUnknown = true, value = { "id" })
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})})
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"id"})
 public class Watch {
     @Id
     @GeneratedValue
+    @JsonIgnore
     private long id;
     @NotNull
     private String title;
@@ -37,10 +39,12 @@ public class Watch {
         this.status = status;
     }
 
+    @JsonIgnore
     public long getId() {
         return id;
     }
 
+    @JsonIgnore
     public void setId(long id) {
         this.id = id;
     }

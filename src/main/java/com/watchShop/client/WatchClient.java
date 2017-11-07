@@ -9,6 +9,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,7 +39,7 @@ public class WatchClient {
 
             List<Watch> watches = HtmlParser.parseRawDateToWatches(rawRequestResult);
 
-            //todo store data
+            watchService.addNewWatches(watches);
             return true;
         } catch (Exception e) {
             throw new GenericEngineException("Could not fetch and store data from the third party server");

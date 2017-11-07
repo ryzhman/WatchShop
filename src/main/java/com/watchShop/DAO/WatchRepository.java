@@ -21,6 +21,8 @@ public interface WatchRepository extends CrudRepository<Watch, Long> {
 
     Watch save(Watch watch);
 
+    List<Watch> save(List<Watch> list);
+
     @Query("select w from Watch w where w.title = :title")
     Watch getWatchByTitle(@Param("title") String title);
 

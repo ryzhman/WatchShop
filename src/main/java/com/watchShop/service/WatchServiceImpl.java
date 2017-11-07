@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -102,5 +103,19 @@ public class WatchServiceImpl implements WatchService {
             }
         }
         watchRepository.save(watchToUpdate);
+    }
+
+    @Override
+    public List<Watch> addNewWatches(List<Watch> watches) throws GenericEngineException {
+        ArrayList<Watch> result = new ArrayList<>();
+        watches.forEach(watch -> {
+            Watch save = watchRepository.save(watch);
+            result.add(save);
+        });
+        if (result != null) {
+            return result;
+        } else {
+            throw new GenericEngineException("List of watches was not saved");
+        }
     }
 }

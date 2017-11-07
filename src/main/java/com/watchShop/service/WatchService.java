@@ -13,6 +13,8 @@ import java.util.Map;
 public interface WatchService {
     Watch addNewWatch(Watch watch) throws GenericEngineException;
 
+    List<Watch> addNewWatches(List<Watch> watches) throws GenericEngineException;
+
     boolean removeWatch(long id) throws GenericEngineException;
 
     List<Watch> getAllAvailableWatches();
