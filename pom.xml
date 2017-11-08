@@ -81,6 +81,13 @@
             <artifactId>jsoup</artifactId>
             <version>1.11.1</version>
         </dependency>
+
+        <!--logging-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
     </dependencies>
 
 
