@@ -9,6 +9,8 @@ import com.watchShop.entity.Watch;
 import com.watchShop.exception.GenericEngineException;
 import com.watchShop.service.WatchService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
@@ -23,6 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/v1/watch")
 public class WatchController {
+    private final Logger log = LoggerFactory.getLogger(WatchController.class);
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
@@ -34,6 +37,7 @@ public class WatchController {
             Watch watchByTitle = watchService.getWatchByTitle(title);
             return new ResponseEntity<>(mapper.writeValueAsString(watchByTitle), HttpStatus.OK);
         } catch (Exception e) {
+            log.error("Could not fetch watch by title", e);
             throw new GenericEngineException(e);
         }
     }
@@ -44,6 +48,7 @@ public class WatchController {
         try {
             Watch watch = mapper.treeToValue(newWatch, Watch.class);
         } catch (Exception e) {
+            log.error("Could add new watch", e);
             throw new GenericEngineException(e);
         }
     }
@@ -59,6 +64,7 @@ public class WatchController {
         try {
             watchService.updateWatch(id, mapper.treeToValue(detailsToUpdate, Map.class));
         } catch (Exception e) {
+            log.error("Could update existing watch", e);
             throw new GenericEngineException(e);
         }
     }

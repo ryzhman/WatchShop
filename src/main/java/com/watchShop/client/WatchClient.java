@@ -7,6 +7,8 @@ import com.watchShop.utility.HtmlParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
  */
 @Component
 public class WatchClient {
+    private final Logger log = LoggerFactory.getLogger(WatchClient.class);
+
     @Value("${systemProperty.dataServer}")
     private String URL_SERVER_TO_GET_DATA_FROM;
 
@@ -42,6 +46,7 @@ public class WatchClient {
             watchService.addNewWatches(watches);
             return true;
         } catch (Exception e) {
+            log.error("Could not load watches from the third party server and store them", e);
             throw new GenericEngineException("Could not fetch and store data from the third party server");
         }
     }

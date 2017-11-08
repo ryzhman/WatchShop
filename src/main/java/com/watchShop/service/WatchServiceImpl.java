@@ -5,6 +5,8 @@ import com.watchShop.entity.Status;
 import com.watchShop.entity.Watch;
 import com.watchShop.exception.GenericEngineException;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ import java.util.Map;
  */
 @Service
 public class WatchServiceImpl implements WatchService {
+    private final Logger log = LoggerFactory.getLogger(WatchService.class);
+
     @Autowired
     WatchRepository watchRepository;
 
@@ -28,6 +32,7 @@ public class WatchServiceImpl implements WatchService {
         if(save != null) {
             return save;
         } else {
+            log.error("Watch was not saved");
             throw new GenericEngineException("Entity was not saved");
         }
     }
@@ -40,6 +45,7 @@ public class WatchServiceImpl implements WatchService {
             watchRepository.delete(watch);
             return true;
         } catch (Exception e) {
+            log.error("Watch was not removed", e);
             throw new GenericEngineException("Requested entity was not found", e);
         }
     }
@@ -65,6 +71,7 @@ public class WatchServiceImpl implements WatchService {
         if(watchByTitle != null) {
             return watchByTitle;
         } else {
+            log.error("Watch was not found");
             throw new GenericEngineException("Requested entity was not found");
         }
     }
@@ -75,6 +82,7 @@ public class WatchServiceImpl implements WatchService {
         if(byId != null) {
             return byId;
         } else {
+            log.error("Watch was not found");
             throw new GenericEngineException("Requested entity was not found");
         }
     }
@@ -112,9 +120,10 @@ public class WatchServiceImpl implements WatchService {
             Watch save = watchRepository.save(watch);
             result.add(save);
         });
-        if (result != null) {
+        if (result != null && result.size() == watches.size()) {
             return result;
         } else {
+            log.error("The list of watches was no saved properly");
             throw new GenericEngineException("List of watches was not saved");
         }
     }

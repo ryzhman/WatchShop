@@ -6,6 +6,8 @@ import com.watchShop.client.WatchClient;
 import com.watchShop.entity.Status;
 import com.watchShop.exception.GenericEngineException;
 import com.watchShop.service.WatchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/v1/watches")
 public class WatchListController {
+    private final Logger log = LoggerFactory.getLogger(WatchListController.class);
     private ObjectMapper mapper = new ObjectMapper();
     private WatchService watchService;
     private WatchClient watchClient;
@@ -43,6 +46,7 @@ public class WatchListController {
         if (watchClient.fetchDataFromThirdPartyServer()) {
             return new ResponseEntity(HttpStatus.CREATED);
         } else {
+            log.error("Could not load watches from the third party server and store them");
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
