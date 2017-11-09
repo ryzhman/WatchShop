@@ -25,7 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/v1/watch")
 public class WatchController {
-    private final Logger log = LoggerFactory.getLogger(WatchController.class);
+    private final Logger log = LoggerFactory.getLogger("INFOLogger");
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
@@ -34,6 +34,7 @@ public class WatchController {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<String> getWatchByTitle(@RequestParam("title") String title) throws GenericEngineException {
         try {
+            log.info("POST request was made");
             Watch watchByTitle = watchService.getWatchByTitle(title);
             return new ResponseEntity<>(mapper.writeValueAsString(watchByTitle), HttpStatus.OK);
         } catch (Exception e) {
