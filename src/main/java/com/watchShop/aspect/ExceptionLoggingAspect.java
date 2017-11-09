@@ -18,8 +18,8 @@ import java.time.LocalDate;
 /**
  * Created by Oleksandr Ryzhkov on 04.11.2017.
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class ExceptionLoggingAspect {
     private int madeRequestsPerDay;
     private int successRequestsPerDay;
