@@ -48,6 +48,7 @@ public class WatchController {
     public void addNewWatch(@RequestBody JsonNode newWatch) throws GenericEngineException {
         try {
             Watch watch = mapper.treeToValue(newWatch, Watch.class);
+            watchService.addNewWatch(watch);
         } catch (Exception e) {
             log.error("Could add new watch", e);
             throw new GenericEngineException(e);

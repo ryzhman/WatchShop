@@ -1,6 +1,5 @@
 package com.watchShop.aspect;
 
-import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 import com.watchShop.exception.GenericEngineException;
 import com.watchShop.service.StatisticsService;
 import org.aspectj.lang.JoinPoint;
@@ -18,8 +17,8 @@ import java.time.LocalDate;
 /**
  * Created by Oleksandr Ryzhkov on 04.11.2017.
  */
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class ExceptionLoggingAspect {
     private int madeRequestsPerDay;
     private int successRequestsPerDay;
@@ -35,6 +34,10 @@ public class ExceptionLoggingAspect {
 
     @Pointcut("bean(*Controller) && !bean(VisitorStatisticsController)")
     public void controllerMethodsWithoutStatistics() {
+    }
+
+    @Pointcut("execution(* com.watchShop.service.WatchServiceImpl.addNewWatch(..))")
+    public void serviceSaveMethod() {
     }
 
     @Pointcut("execution(* com.watchShop.controller.WatchController.getWatchByTitle(..))")
@@ -68,5 +71,19 @@ public class ExceptionLoggingAspect {
     public void countSuccessRequests() {
         successRequestsPerDay++;
         statisticsService.updateSuccessRequestsStatisticsByDate(LocalDate.now(), successRequestsPerDay);
+    }
+
+    @Around("serviceSaveMethod()")
+    public void catchFailedSave(ProceedingJoinPoint pjp) throws Throwable {
+        Object resultOfOperation = null;
+        try {
+            resultOfOperation = pjp.proceed();
+
+            if (resultOfOperation == null) {
+                throw new GenericEngineException("Saving of new watch failed. Arguments passed - " + pjp.getArgs());
+            }
+        } catch (Exception e) {
+            throw new GenericEngineException("Saving of new watch failed. Arguments passed - " + pjp.getArgs());
+        }
     }
 }

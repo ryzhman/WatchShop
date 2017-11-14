@@ -29,12 +29,12 @@ public class WatchServiceImpl implements WatchService {
     @Transactional
     public Watch addNewWatch(Watch watch) throws GenericEngineException {
         Watch save = watchRepository.save(watch);
-        if(save != null) {
+//        if(save != null) {
             return save;
-        } else {
-            log.error("Watch was not saved");
-            throw new GenericEngineException("Entity was not saved");
-        }
+//        } else {
+//            log.error("Watch was not saved");
+//            throw new GenericEngineException("Entity was not saved");
+//        }
     }
 
     @Override
